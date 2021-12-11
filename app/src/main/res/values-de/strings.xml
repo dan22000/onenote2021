@@ -6,4 +6,8 @@
     <string name="title">Titel</string>
     <string name="message">Beschreibung</string>
     <string name="save">Speichern</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="delete_message">Möchtest du diese Notiz wirklich löschen?</string>
 </resources>

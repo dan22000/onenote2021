@@ -6,4 +6,8 @@
     <string name="title">Title</string>
     <string name="message">Message</string>
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_message">Do you really want to delete this note?</string>
 </resources>

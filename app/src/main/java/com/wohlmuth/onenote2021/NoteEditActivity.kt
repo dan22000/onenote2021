@@ -1,13 +1,17 @@
 package com.wohlmuth.onenote2021
 
+import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 
-class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
+class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
 
     private var etTitle: EditText? = null
     private var etMessage: EditText? = null
@@ -29,6 +33,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
         btnSave.setOnClickListener(this)
     }
 
+    private fun deleteNote() {
+        Preferences().setNoteTitle(this, null)
+        Preferences().setNoteMessage(this, null)
+        finish()
+    }
+
     override fun onClick(view: View?) {
         // Store Title and Message in preferences
         Preferences().setNoteTitle(this, etTitle?.text.toString())
@@ -37,8 +47,24 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_list, menu)
+        menuInflater.inflate(R.menu.menu_edit_note, menu)
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.delete) {
+            AlertDialog.Builder(this)
+                .setMessage(R.string.delete_message)
+                .setPositiveButton(R.string.yes, this)
+                .setNegativeButton(R.string.no, null)
+                .show()
+        }
+
+        return true
+    }
+
+    override fun onClick(p0: DialogInterface?, p1: Int) {
+        deleteNote()
     }
 }

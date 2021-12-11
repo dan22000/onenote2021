@@ -11,7 +11,7 @@ class Preferences {
         const val PREFERENCES_NAME = "preferences_note"
     }
 
-    fun setNoteTitle(context: Context, noteTitle: String) {
+    fun setNoteTitle(context: Context, noteTitle: String?) {
         val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         preferences.edit().putString(PREFERENCES_NOTE_TITLE, noteTitle).apply()
     }
@@ -21,7 +21,7 @@ class Preferences {
         return preferences.getString(PREFERENCES_NOTE_TITLE, null)
     }
 
-    fun setNoteMessage(context: Context, noteMessage: String) {
+    fun setNoteMessage(context: Context, noteMessage: String?) {
         val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         preferences.edit().putString(PREFERENCES_NOTE_MESSAGE, noteMessage).apply()
     }
