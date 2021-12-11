@@ -6,27 +6,20 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
-
-    private var tvTitle: TextView? = null
-    private var tvMessage: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-
-        // Find views by id
-        tvTitle = findViewById(R.id.tvTitle)
-        tvMessage = findViewById(R.id.tvMessage)
-
-        updateNote()
     }
 
-    private fun updateNote() {
-        tvTitle?.text = Preferences().getNoteTitle(this)
-        tvMessage?.text = Preferences().getNoteMessage(this)
+    override fun onResume() {
+        super.onResume()
+        updateView()
+    }
+
+    private fun updateView() {
     }
 
     override fun onClick(view: View?) {
