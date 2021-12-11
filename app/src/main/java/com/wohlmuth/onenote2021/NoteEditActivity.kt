@@ -16,8 +16,11 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_edit)
 
+        // Find views by id
         etTitle = findViewById(R.id.etTitle)
         etMessage = findViewById(R.id.etMessage)
+
+        // Set Title and Message on EditText objects
         etTitle?.setText(Preferences().getNoteTitle(this))
         etMessage?.setText(Preferences().getNoteMessage(this))
 
@@ -27,6 +30,7 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
+        // Store Title and Message in preferences
         Preferences().setNoteTitle(this, etTitle?.text.toString())
         Preferences().setNoteMessage(this, etMessage?.text.toString())
         finish()
