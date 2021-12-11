@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 
-class ListActivity : AppCompatActivity(), View.OnClickListener {
+class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        setContentView(R.layout.activity_note_edit)
     }
 
     override fun onClick(view: View?) {

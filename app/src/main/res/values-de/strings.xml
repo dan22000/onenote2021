@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">OneNote 2021</string>
+    <string name="add">Hinzufügen</string>
     <string name="login">Anmelden</string>
     <string name="logged_in">Angemeldet</string>
+    <string name="title">Titel</string>
+    <string name="message">Beschreibung</string>
 </resources>
