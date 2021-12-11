@@ -8,18 +8,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvTitle"
+    <EditText
+        android:id="@+id/etTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title"
-        style="@style/NoteTitle"/>
+        android:layout_margin="@dimen/padding"
+        android:hint="@string/title"/>
 
-    <TextView
-        android:id="@+id/tvMessage"
+    <EditText
+        android:id="@+id/etMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/message"
-        style="@style/NoteMessage"/>
+        android:layout_margin="@dimen/padding"
+        android:hint="@string/message"/>
 
 </LinearLayout>
