@@ -4,15 +4,32 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
+
+    private var etTitle: EditText? = null
+    private var etMessage: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_edit)
+
+        etTitle = findViewById(R.id.etTitle)
+        etMessage = findViewById(R.id.etMessage)
+        etTitle?.setText(Preferences().getNoteTitle(this))
+        etMessage?.setText(Preferences().getNoteMessage(this))
+
+        // Set OnClickListener
+        val btnSave = findViewById<Button>(R.id.btnSave)
+        btnSave.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
+        Preferences().setNoteTitle(this, etTitle?.text.toString())
+        Preferences().setNoteMessage(this, etMessage?.text.toString())
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
