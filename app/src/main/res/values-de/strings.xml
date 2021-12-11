@@ -5,4 +5,5 @@
     <string name="logged_in">Angemeldet</string>
     <string name="title">Titel</string>
     <string name="message">Beschreibung</string>
+    <string name="save">Speichern</string>
 </resources>
