@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.reflect.Array
-
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -44,13 +41,10 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         // Init adapter
-        val adapter: ArrayAdapter<String> = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1, android.R.id.text1, notes
-        )
+        val noteAdapter = NoteAdapter(this, notes)
 
         // Set adapter on listView
-        listView.adapter = adapter
+        listView.adapter = noteAdapter
     }
 
     override fun onResume() {
