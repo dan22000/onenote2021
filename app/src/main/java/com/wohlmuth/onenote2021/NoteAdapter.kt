@@ -12,7 +12,6 @@ class NoteAdapter(context: Context, var notes: List<String>): BaseAdapter() {
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
         return inflater.inflate(R.layout.list_item, parent, false)
     }
 
