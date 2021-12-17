@@ -26,12 +26,21 @@ class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
         notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
         notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
+        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
+        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
+        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
+        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
+        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
+        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
+        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
+        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
+        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
 
         // Init adapter
-        //noteAdapter = NoteAdapter(this, notes)
+        noteAdapter = NoteAdapter(this, notes)
 
         // Set adapter on listView
-        //listView.adapter = noteAdapter
+        listView.adapter = noteAdapter
         listView.onItemClickListener = this
     }
 

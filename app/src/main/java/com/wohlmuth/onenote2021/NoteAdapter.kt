@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class NoteAdapter(var context: Context, var notes: List<String>): BaseAdapter() {
+class NoteAdapter(var context: Context, var notes: List<Note>): BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -15,8 +15,12 @@ class NoteAdapter(var context: Context, var notes: List<String>): BaseAdapter() 
         val view = inflater.inflate(R.layout.list_item, parent, false)
         val title = view.findViewById(R.id.tvTitle) as TextView
         val message = view.findViewById(R.id.tvMessage) as TextView
-        title.text = Preferences().getNoteTitle(context)
-        message.text = Preferences().getNoteMessage(context)
+
+        // Get our note object for current position using getItem(position).
+        val note = getItem(position) as Note
+        title.text = note.title
+        message.text = note.message
+
         return view
     }
 
@@ -25,7 +29,7 @@ class NoteAdapter(var context: Context, var notes: List<String>): BaseAdapter() 
     }
 
     override fun getItemId(position: Int): Long {
-        return 0
+        return notes[position].id
     }
 
     override fun getCount(): Int {
