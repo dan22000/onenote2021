@@ -28,6 +28,14 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
             $KEY_MESSAGE TEXT
         )""")
 
+        // Database cursor array
+        private val CURSOR_ARRAY = arrayOf(
+            KEY_ID,
+            KEY_TIMESTAMP,
+            KEY_TITLE,
+            KEY_MESSAGE
+        )
+
         // Database select all statement
         private const val SELECT_ALL = "SELECT * FROM $DATABASE_TABLE_NAME"
     }
@@ -70,5 +78,18 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
 
         readableDatabase.close()
         return notes
+    }
+
+    // Get single note from database
+    fun getNote(id: Long): Note? {
+        val note: Note? = null
+        val cursor = readableDatabase.query(
+            DATABASE_TABLE_NAME, CURSOR_ARRAY, "$KEY_ID=?", arrayOf(id.toString()), null, null, null, null
+        )
+        cursor.moveToFirst()
+        // TODO create note from cursor
+        cursor.close()
+
+        return note
     }
 }

@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemClickListener {
 
-    var noteAdapter: BaseAdapter? = null
+    var noteAdapter: NoteAdapter? = null
+    var db = Database(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,23 +22,8 @@ class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         // Find view by id
         val listView = findViewById<ListView>(R.id.lvNotes)
 
-        // Create list of notes
-        val notes: MutableList<Note> = ArrayList()
-        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
-        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
-        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
-        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
-        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
-        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
-        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
-        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
-        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
-        notes.add(Note(1, System.currentTimeMillis(),"Title", "Message"))
-        notes.add(Note(2, System.currentTimeMillis(),"Title1", "Message1"))
-        notes.add(Note(3, System.currentTimeMillis(),"Title2", "Message2"))
-
         // Init adapter
-        noteAdapter = NoteAdapter(this, notes)
+        noteAdapter = NoteAdapter(this, db.getAllNotes())
 
         // Set adapter on listView
         listView.adapter = noteAdapter
@@ -50,6 +36,8 @@ class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     }
 
     private fun updateView() {
+        // Create list of notes
+        noteAdapter?.notes = db.getAllNotes()
         noteAdapter?.notifyDataSetChanged()
     }
 
