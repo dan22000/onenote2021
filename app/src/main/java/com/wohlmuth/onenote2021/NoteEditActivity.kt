@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
@@ -18,6 +19,9 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_edit)
+
+        // Display home button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Find views by id
         etTitle = findViewById(R.id.etTitle)
@@ -35,14 +39,26 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     private fun deleteNote() {
         Preferences().setNoteTitle(this, null)
         Preferences().setNoteMessage(this, null)
+
+        // Display Toast
+        Toast.makeText(this, R.string.note_deleted, Toast.LENGTH_LONG).show()
+
+        finish()
+    }
+
+    private fun saveNote() {
+        // Store Title and Message in preferences
+        Preferences().setNoteTitle(this, etTitle?.text.toString())
+        Preferences().setNoteMessage(this, etMessage?.text.toString())
+
+        // Display Toast
+        Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
+
         finish()
     }
 
     override fun onClick(view: View?) {
-        // Store Title and Message in preferences
-        Preferences().setNoteTitle(this, etTitle?.text.toString())
-        Preferences().setNoteMessage(this, etMessage?.text.toString())
-        finish()
+        saveNote()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,6 +74,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
                 .setPositiveButton(R.string.yes, this)
                 .setNegativeButton(R.string.no, null)
                 .show()
+        } else if (item.itemId == android.R.id.home) {
+            finish()
         }
 
         return true
