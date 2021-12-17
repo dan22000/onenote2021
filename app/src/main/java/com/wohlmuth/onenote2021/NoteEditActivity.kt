@@ -47,13 +47,14 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     private fun saveNote() {
-        // Store Title and Message in preferences
-        Preferences().setNoteTitle(this, etTitle?.text.toString())
-        Preferences().setNoteMessage(this, etMessage?.text.toString())
+        val title = etTitle?.text.toString()
+        val message = etMessage?.text.toString()
+        val db = Database(this)
+        db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+        db.getAllNotes()
 
         // Display Toast
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
-
         finish()
     }
 

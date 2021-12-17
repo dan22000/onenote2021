@@ -27,6 +27,9 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
             $KEY_TITLE TEXT,
             $KEY_MESSAGE TEXT
         )""")
+
+        // Database select all statement
+        private const val SELECT_ALL = "SELECT * FROM $DATABASE_TABLE_NAME"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -46,9 +49,26 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
     }
 
+    // Get all notes from database
     fun getAllNotes(): List<Note> {
         val notes = ArrayList<Note>()
+        val cursor = readableDatabase.rawQuery(SELECT_ALL, null)
+        cursor.moveToFirst().run {
+            do {
+                if (cursor.count > 0) {
+                    cursor.run {
+                        notes.add(Note(
+                            getLong(getColumnIndex(KEY_ID)),
+                            getLong(getColumnIndex(KEY_TIMESTAMP)),
+                            getString(getColumnIndex(KEY_TITLE)),
+                            getString(getColumnIndex(KEY_MESSAGE))
+                        ))
+                    }
+                }
+            } while (cursor.moveToNext())
+        }
 
+        readableDatabase.close()
         return notes
     }
 }
