@@ -1,5 +1,6 @@
 package com.wohlmuth.onenote2021
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -33,5 +34,21 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
+    }
+
+    // Insert note into database
+    fun insertNote(note: Note): Long {
+        val values = ContentValues()
+        values.put(KEY_TIMESTAMP, note.timestamp)
+        values.put(KEY_TITLE, note.title)
+        values.put(KEY_MESSAGE, note.message)
+
+        return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
+    }
+
+    fun getAllNotes(): List<Note> {
+        val notes = ArrayList<Note>()
+
+        return notes
     }
 }
