@@ -10,9 +10,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
 
+    private val db = Database(this)
+    private var note: Note? = null
     private var etTitle: EditText? = null
     private var etMessage: EditText? = null
 
@@ -27,13 +30,13 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         etTitle = findViewById(R.id.etTitle)
         etMessage = findViewById(R.id.etMessage)
 
-        // Create database object
-        var db = Database(this)
-
         // Set Title and Message on EditText objects
-        val note = db.getNote(intent.getLongExtra("id", 0))
-        etTitle?.setText(note?.title)
-        etMessage?.setText(note?.message)
+        val id = intent.getLongExtra("id", -1)
+        if (id >= 0) {
+            note = db.getNote(id)
+            etTitle?.setText(note?.title)
+            etMessage?.setText(note?.message)
+        }
 
         // Set OnClickListener
         val btnSave = findViewById<Button>(R.id.btnSave)
@@ -41,8 +44,7 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     private fun deleteNote() {
-        Preferences().setNoteTitle(this, null)
-        Preferences().setNoteMessage(this, null)
+        db.deleteNote(note!!)
 
         // Display Toast
         Toast.makeText(this, R.string.note_deleted, Toast.LENGTH_LONG).show()
@@ -54,7 +56,13 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         val title = etTitle?.text.toString()
         val message = etMessage?.text.toString()
         val db = Database(this)
-        db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+        if (note == null) {
+            db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+        } else {
+            note?.message = message
+            note?.title = title
+            db.updateNote(note!!)
+        }
 
         // Display Toast
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
@@ -63,6 +71,11 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
 
     override fun onClick(view: View?) {
         saveNote()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.get(0)?.isVisible = note != null
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

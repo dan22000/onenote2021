@@ -99,4 +99,26 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
 
         return note
     }
+
+    // Update single note
+    fun updateNote(note: Note): Int {
+        val values = ContentValues()
+        values.put(KEY_TIMESTAMP, note.timestamp)
+        values.put(KEY_TITLE, note.title)
+        values.put(KEY_MESSAGE, note.message)
+
+        return writableDatabase.update(DATABASE_TABLE_NAME,
+            values,
+            "$KEY_ID=?",
+            arrayOf(note.id.toString()))
+    }
+
+    // Delete single note
+    fun deleteNote(note: Note) {
+        writableDatabase.delete(
+            DATABASE_TABLE_NAME,
+            "$KEY_ID=?",
+            arrayOf(note.id.toString())
+        )
+    }
 }
