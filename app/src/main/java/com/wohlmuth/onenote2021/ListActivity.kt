@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.BaseAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
+
+    var noteAdapter: BaseAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         // Init adapter
-        val noteAdapter = NoteAdapter(this, notes)
+        noteAdapter = NoteAdapter(this, notes)
 
         // Set adapter on listView
         listView.adapter = noteAdapter
@@ -53,6 +56,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateView() {
+        noteAdapter?.notifyDataSetChanged()
     }
 
     override fun onClick(view: View?) {
