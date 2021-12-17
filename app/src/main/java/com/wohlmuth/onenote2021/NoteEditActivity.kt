@@ -27,9 +27,13 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         etTitle = findViewById(R.id.etTitle)
         etMessage = findViewById(R.id.etMessage)
 
+        // Create database object
+        var db = Database(this)
+
         // Set Title and Message on EditText objects
-        etTitle?.setText(Preferences().getNoteTitle(this))
-        etMessage?.setText(Preferences().getNoteMessage(this))
+        val note = db.getNote(intent.getLongExtra("id", 0))
+        etTitle?.setText(note?.title)
+        etMessage?.setText(note?.message)
 
         // Set OnClickListener
         val btnSave = findViewById<Button>(R.id.btnSave)
@@ -51,7 +55,6 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         val message = etMessage?.text.toString()
         val db = Database(this)
         db.insertNote(Note(0, System.currentTimeMillis(), title, message))
-        db.getAllNotes()
 
         // Display Toast
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()

@@ -82,12 +82,19 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
 
     // Get single note from database
     fun getNote(id: Long): Note? {
-        val note: Note? = null
+        var note: Note?
         val cursor = readableDatabase.query(
             DATABASE_TABLE_NAME, CURSOR_ARRAY, "$KEY_ID=?", arrayOf(id.toString()), null, null, null, null
         )
         cursor.moveToFirst()
-        // TODO create note from cursor
+        cursor.run {
+            note = Note(
+                getLong(getColumnIndex(KEY_ID)),
+                getLong(getColumnIndex(KEY_TIMESTAMP)),
+                getString(getColumnIndex(KEY_TITLE)),
+                getString(getColumnIndex(KEY_MESSAGE))
+            )
+        }
         cursor.close()
 
         return note

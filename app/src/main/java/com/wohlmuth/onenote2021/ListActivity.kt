@@ -59,8 +59,9 @@ class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         return true
     }
 
-    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, id: Long) {
         val intent = Intent(this, NoteEditActivity::class.java)
+        intent.putExtra("id", id)
         startActivity(intent)
     }
 }
