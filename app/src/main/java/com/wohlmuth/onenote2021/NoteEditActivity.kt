@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -138,6 +139,13 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
 
         // Display Toast
         Toast.makeText(this, "Latitude: $latitude Longitude: $longitude", Toast.LENGTH_LONG).show()
+
+        // Play audio file
+        MediaPlayer.create(this, R.raw.beep).start()
+
+        // Vibrate
+        // TODO Implement
+
         finish()
     }
 
