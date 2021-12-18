@@ -65,7 +65,7 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         values.put(KEY_TITLE, note.title)
         values.put(KEY_MESSAGE, note.message)
         values.put(KEY_LATITUDE, note.latitude)
-        values.put(KEY_LONGITUDE, note.latitude)
+        values.put(KEY_LONGITUDE, note.longitude)
 
         return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
     }
