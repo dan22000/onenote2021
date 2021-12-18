@@ -12,20 +12,24 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         // Database properties
         private const val DATABASE_NAME = "onenote"
         private const val DATABASE_TABLE_NAME = "notes"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         // Database table column names
         private const val KEY_ID = "id"
         private const val KEY_TITLE = "title"
         private const val KEY_MESSAGE = "message"
         private const val KEY_TIMESTAMP = "timestamp"
+        private const val KEY_LATITUDE = "latitude"
+        private const val KEY_LONGITUDE = "longitude"
 
         // Database create table statement
         private const val CREATE_TABLE = ("""CREATE TABLE $DATABASE_TABLE_NAME(
             $KEY_ID INTEGER PRIMARY KEY,
             $KEY_TIMESTAMP INT,
             $KEY_TITLE TEXT,
-            $KEY_MESSAGE TEXT
+            $KEY_MESSAGE TEXT,
+            $KEY_LATITUDE FLOAT,
+            $KEY_LONGITUDE FLOAT
         )""")
 
         // Database cursor array
@@ -33,11 +37,16 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
             KEY_ID,
             KEY_TIMESTAMP,
             KEY_TITLE,
-            KEY_MESSAGE
+            KEY_MESSAGE,
+            KEY_LATITUDE,
+            KEY_LONGITUDE
         )
 
         // Database select all statement
         private const val SELECT_ALL = "SELECT * FROM $DATABASE_TABLE_NAME"
+
+        // Drop table statement
+        private const val DROP_TABLE = "DROP TABLE IF EXISTS $DATABASE_TABLE_NAME"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -45,6 +54,8 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
+        db.execSQL(DROP_TABLE)
+        db.execSQL(CREATE_TABLE)
     }
 
     // Insert note into database
@@ -53,6 +64,8 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         values.put(KEY_TIMESTAMP, note.timestamp)
         values.put(KEY_TITLE, note.title)
         values.put(KEY_MESSAGE, note.message)
+        values.put(KEY_LATITUDE, note.latitude)
+        values.put(KEY_LONGITUDE, note.latitude)
 
         return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
     }
@@ -69,7 +82,9 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
                             getLong(getColumnIndex(KEY_ID)),
                             getLong(getColumnIndex(KEY_TIMESTAMP)),
                             getString(getColumnIndex(KEY_TITLE)),
-                            getString(getColumnIndex(KEY_MESSAGE))
+                            getString(getColumnIndex(KEY_MESSAGE)),
+                            getDouble(getColumnIndex(KEY_LATITUDE)),
+                            getDouble(getColumnIndex(KEY_LONGITUDE))
                         ))
                     }
                 }
@@ -92,7 +107,9 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
                 getLong(getColumnIndex(KEY_ID)),
                 getLong(getColumnIndex(KEY_TIMESTAMP)),
                 getString(getColumnIndex(KEY_TITLE)),
-                getString(getColumnIndex(KEY_MESSAGE))
+                getString(getColumnIndex(KEY_MESSAGE)),
+                getDouble(getColumnIndex(KEY_LATITUDE)),
+                getDouble(getColumnIndex(KEY_LONGITUDE))
             )
         }
         cursor.close()
@@ -106,6 +123,8 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         values.put(KEY_TIMESTAMP, note.timestamp)
         values.put(KEY_TITLE, note.title)
         values.put(KEY_MESSAGE, note.message)
+        values.put(KEY_LATITUDE, note.latitude)
+        values.put(KEY_LONGITUDE, note.longitude)
 
         return writableDatabase.update(DATABASE_TABLE_NAME,
             values,

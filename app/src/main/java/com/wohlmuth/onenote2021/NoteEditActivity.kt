@@ -57,7 +57,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         val message = etMessage?.text.toString()
         val db = Database(this)
         if (note == null) {
-            db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+            // TODO add latitude and longitude
+            db.insertNote(Note(0, System.currentTimeMillis(), title, message, 1.1, 1.1))
         } else {
             note?.message = message
             note?.title = title
