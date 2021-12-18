@@ -3,6 +3,7 @@ package com.wohlmuth.onenote2021
 import android.Manifest
 import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -40,6 +42,7 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         // Find views by id
         etTitle = findViewById(R.id.etTitle)
         etMessage = findViewById(R.id.etMessage)
+        val tvLocation: TextView = findViewById(R.id.tvLocation)
 
         // Set Title and Message on EditText objects
         val id = intent.getLongExtra("id", -1)
@@ -47,6 +50,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
             note = db.getNote(id)
             etTitle?.setText(note?.title)
             etMessage?.setText(note?.message)
+
+            if (note?.latitude != 0.0) {
+                tvLocation.visibility = View.VISIBLE
+                val addr = getAddress(note!!.latitude, note!!.longitude)
+                tvLocation.text = addr
+            }
         }
 
         // Set OnClickListener
@@ -55,6 +64,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
 
         // Init FusedLocationProvider
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    private fun getAddress(lat: Double, lng: Double): String? {
+        val geocoder = Geocoder(this)
+        val list = geocoder.getFromLocation(lat,lng,1)
+        return list[0].getAddressLine(0)
     }
 
     private fun requestPermissions() {
